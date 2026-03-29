@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-5 fw-bold mb-3">
+                <i class="fas fa-search me-2 text-success"></i>Available Food Near You
+            </h1>
+            <p class="lead text-muted">Find food donations available in your area</p>
+        </div>
+    </div>
+
+    <!-- Search Section -->
+    <div class="row mb-5">
+        <div class="col-lg-10 mx-auto">
+            <div class="card border-0 shadow-lg rounded-4">
+                <div class="card-body p-4">
+                    <form method="get" class="food-search-form">
+                        <div class="row g-3">
+                            <!-- Location Search -->
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="{{ search_form.location.id_for_label }}" class="form-label fw-bold">
+                                        <i class="fas fa-map-marker-alt text-success me-2"></i>Search by Location
+                                    </label>
+                                    {{ search_form.location }}
+                                    <small class="text-muted d-block mt-1">
+                                        Enter a city, area, or address
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Food Name Search -->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="{{ search_form.food_name.id_for_label }}" class="form-label fw-bold">
+                                        <i class="fas fa-utensils text-success me-2"></i>Food Name
+                                    </label>
+                                    {{ search_form.food_name }}
+                                    <small class="text-muted d-block mt-1">
+                                        Search for food type
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Sort By -->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="{{ search_form.sort_by.id_for_label }}" class="form-label fw-bold">
+                                        <i class="fas fa-sort text-success me-2"></i>Sort By
+                                    </label>
+                                    {{ search_form.sort_by }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-success btn-lg rounded-pill fw-bold">
+                                <i class="fas fa-search me-2"></i>Search Food
+                            </button>
+                            <a href="{% url 'food_list' %}" class="btn btn-outline-secondary btn-lg rounded-pill fw-bold ms-2">
+                                <i class="fas fa-redo me-2"></i>Clear
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    {% if search_results_count is not None %}
+    <div class="row mb-4">
+        <div class="col-lg-10 mx-auto">
+            <div class="alert alert-info border-0 rounded-3" role="alert">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong>Search Results:</strong> Found {{ search_results_count }} food item{{ search_results_count|pluralize }} matching your criteria
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Food Items Grid -->
+    <div class="row g-4">
+        {% for item in items %}
+            <div class="col-md-6 col-lg-4">
+                <article class="card food-card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+                    <!-- Image Section -->
+                    {% if item.image %}
+                        <div class="position-relative">
+                            <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}" style="height:220px; object-fit:cover;" />
+                            <div class="position-absolute top-0 end-0 p-3">
+                                <span class="badge bg-success rounded-pill">
+                                    <i class="fas fa-box me-1"></i>{{ item.quantity }} pcs
+                                </span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center" style="height:220px;">
+                            <div class="text-center text-muted">
+                                <i class="fas fa-image fa-3x mb-2"></i>
+                                <p class="mb-0">No Image</p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Card Body -->
+                    <div class="card-body p-4">
+                        <h5 class="card-title fw-bold mb-3">{{ item.name }}</h5>
+                        <p class="card-text text-muted small mb-3">{{ item.description|truncatechars:85 }}</p>
+
+                        <!-- Details -->
+                        <div class="details-section mb-3">
+                            <div class="detail-item d-flex align-items-center mb-2">
+                                <i class="fas fa-clock text-success me-2" style="width: 20px;"></i>
+                                <span class="small">
+                                    <strong>Prepared:</strong> {{ item.preparation_time|date:'M j, H:i' }}
+                                </span>
+                            </div>
+                            <div class="detail-item d-flex align-items-center mb-2">
+                                <i class="fas fa-hourglass-end text-warning me-2" style="width: 20px;"></i>
+                                <span class="small">
+                                    <strong>Expires:</strong> {{ item.expiry_time|date:'M j, H:i' }}
+                                </span>
+                            </div>
+                            <div class="detail-item d-flex align-items-center mb-2">
+                                <i class="fas fa-map-marker-alt text-danger me-2" style="width: 20px;"></i>
+                                <span class="small">
+                                    <strong>{{ item.location }}</strong>
+                                </span>
+                            </div>
+                            <div class="detail-item d-flex align-items-center">
+                                <i class="fas fa-user text-info me-2" style="width: 20px;"></i>
+                                <span class="small">
+                                    <strong>By:</strong> {{ item.donor.username }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Status Badge -->
+                        <div class="mb-3">
+                            {% if item.expiry_time <= now %}
+                                <span class="badge bg-danger rounded-pill">
+                                    <i class="fas fa-exclamation-circle me-1"></i>Expired
+                                </span>
+                            {% else %}
+                                <span class="badge bg-success rounded-pill">
+                                    <i class="fas fa-check-circle me-1"></i>Fresh
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Action Button -->
+                        <a href="{% url 'food_detail' item.id %}" class="btn btn-success btn-sm rounded-pill w-100 fw-bold">
+                            <i class="fas fa-eye me-1"></i>View Details
+                        </a>
+                    </div>
+                </article>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-warning border-0 rounded-3 py-5 text-center" role="alert">
+                    <i class="fas fa-inbox fa-3x mb-3 text-warning"></i>
+                    <h5 class="fw-bold mb-2">No Food Available</h5>
+                    <p class="text-muted mb-3">
+                        {% if search_results_count == 0 %}
+                            No food items match your search criteria. Try adjusting your search.
+                        {% else %}
+                            No food available at the moment. Please check back later!
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'food_list' %}" class="btn btn-warning rounded-pill">
+                        <i class="fas fa-redo me-1"></i>Clear Search & Try Again
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .food-search-form {
+        padding: 0;
+    }
+
+    .detail-item {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .detail-item:last-child {
+        border-bottom: none;
+    }
+
+    .food-card {
+        transition: all 0.3s ease;
+    }
+
+    .food-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15) !important;
+    }
+</style>
+{% endblock %}

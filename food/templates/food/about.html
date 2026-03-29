@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="mb-5">
+    <h2 class="mb-3">About Food Waste Management</h2>
+    <p class="lead">Food Waste Management is a scalable web platform built to reduce waste and improve food distribution.</p>
+    <div class="row g-4 mt-4">
+        <div class="col-md-6">
+            <div class="card p-4">
+                <h5>Mission</h5>
+                <p>Reduce food waste across communities, create equitable access, and support local NGOs in distribution and tracking.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-4">
+                <h5>Vision</h5>
+                <p>A future where no edible food is discarded, and surplus is redirected to families who need it most.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mb-5">
+    <h3>Features</h3>
+    <ul class="list-group list-group-flush mt-3">
+        <li class="list-group-item">Role-based portals: Donor, Receiver, NGO.</li>
+        <li class="list-group-item">Food listing with image and expiry data.</li>
+        <li class="list-group-item">Request flow + accept/reject + delivery status tracking.</li>
+        <li class="list-group-item">Admin panel control and user management.</li>
+    </ul>
+</section>
+
+<section class="text-center">
+    <h3>How to Start</h3>
+    <p>Create an account, post donations, and help your community by matching food supply and demand.</p>
+    <a class="btn btn-primary" href="{% url 'register' %}">Create Account</a>
+</section>
+{% endblock %}

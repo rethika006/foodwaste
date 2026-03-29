@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ item.name }}</h2>
+<div class="row">
+    <div class="col-md-6">
+        {% if item.image %}
+            <img src="{{ item.image.url }}" class="img-fluid" alt="{{ item.name }}">
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        <p>{{ item.description }}</p>
+        <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+        <p><strong>Preparation:</strong> {{ item.preparation_time }}</p>
+        <p><strong>Expiry:</strong> {{ item.expiry_time }}</p>
+        <p><strong>Location:</strong> {{ item.location }}</p>
+        <p><strong>Donor:</strong> {{ item.donor.username }}</p>
+
+        {% if user.is_authenticated and user.role == 'receiver' %}
+            {% if already_requested %}
+                <div class="alert alert-info">You already requested this food.</div>
+            {% else %}
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success">Request Food</button>
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

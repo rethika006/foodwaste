@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white text-center">
+                    <h4 class="mb-0"><i class="fas fa-user-plus"></i> Create Account</h4>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <form method="post" novalidate id="registerForm">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.username.id_for_label }}" class="form-label">
+                                    <i class="fas fa-user"></i> Username *
+                                </label>
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                    <div class="text-danger small">{{ form.username.errors }}</div>
+                                {% endif %}
+                                <div class="form-text">Choose a unique username</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">
+                                    <i class="fas fa-envelope"></i> Email *
+                                </label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger small">{{ form.email.errors }}</div>
+                                {% endif %}
+                                <div class="form-text">We'll never share your email</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.phone.id_for_label }}" class="form-label">
+                                    <i class="fas fa-phone"></i> Phone
+                                </label>
+                                {{ form.phone }}
+                                {% if form.phone.errors %}
+                                    <div class="text-danger small">{{ form.phone.errors }}</div>
+                                {% endif %}
+                                <div class="form-text">Optional contact number</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.role.id_for_label }}" class="form-label">
+                                    <i class="fas fa-users"></i> I am a *
+                                </label>
+                                {{ form.role }}
+                                {% if form.role.errors %}
+                                    <div class="text-danger small">{{ form.role.errors }}</div>
+                                {% endif %}
+                                <div class="form-text">Select your role in the food waste management system</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.address.id_for_label }}" class="form-label">
+                                <i class="fas fa-map-marker-alt"></i> Address
+                            </label>
+                            {{ form.address }}
+                            {% if form.address.errors %}
+                                <div class="text-danger small">{{ form.address.errors }}</div>
+                            {% endif %}
+                            <div class="form-text">Optional address for coordination</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.password1.id_for_label }}" class="form-label">
+                                    <i class="fas fa-lock"></i> Password *
+                                </label>
+                                {{ form.password1 }}
+                                {% if form.password1.errors %}
+                                    <div class="text-danger small">{{ form.password1.errors }}</div>
+                                {% endif %}
+                                <div id="passwordHelp" class="form-text">Password must be at least 8 characters</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.password2.id_for_label }}" class="form-label">
+                                    <i class="fas fa-lock"></i> Confirm Password *
+                                </label>
+                                {{ form.password2 }}
+                                {% if form.password2.errors %}
+                                    <div class="text-danger small">{{ form.password2.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                            <label class="form-check-label" for="terms">
+                                I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a> *
+                            </label>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="newsletter" name="newsletter">
+                            <label class="form-check-label" for="newsletter">
+                                Subscribe to our newsletter for updates
+                            </label>
+                        </div>
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger small">{{ form.non_field_errors }}</div>
+                        {% endif %}
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success" id="registerBtn">
+                                <i class="fas fa-user-plus"></i> Create Account
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <small>Already have an account? <a href="{% url 'login' %}" class="text-decoration-none">Login here</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Password strength indicator
+document.getElementById('id_password1').addEventListener('input', function() {
+    const password = this.value;
+    const helpText = document.getElementById('passwordHelp');
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+    if (strength < 3) {
+        helpText.textContent = 'Weak password';
+        helpText.className = 'form-text text-danger';
+    } else if (strength < 4) {
+        helpText.textContent = 'Medium password';
+        helpText.className = 'form-text text-warning';
+    } else {
+        helpText.textContent = 'Strong password';
+        helpText.className = 'form-text text-success';
+    }
+});
+
+// Form validation
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    const terms = document.getElementById('terms');
+    if (!terms.checked) {
+        e.preventDefault();
+        alert('Please agree to the Terms of Service and Privacy Policy.');
+    }
+});
+</script>
+{% endblock %}

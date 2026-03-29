@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Donor Dashboard</h2>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Total Donations</h5>
+                    <h3>{{ total_donations }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Pending Requests</h5>
+                    <h3>{{ pending_requests }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">Available Items</h5>
+                    <h3>{{ available_items }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Food Button -->
+    <div class="mb-4">
+        <a class="btn btn-success btn-lg" href="{% url 'add_food' %}">
+            <i class="fas fa-plus"></i> Add New Food Donation
+        </a>
+    </div>
+
+    <!-- Your Donations -->
+    <h3 class="mb-3">Your Donations</h3>
+    <div class="row">
+        {% for item in food_items %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm food-card">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fas fa-utensils fa-3x text-muted"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <p class="card-text">{{ item.description|truncatechars:100 }}</p>
+                        <ul class="list-unstyled small">
+                            <li><strong>Quantity:</strong> {{ item.quantity }}</li>
+                            <li><strong>Prepared:</strong> {{ item.preparation_time|date:"M d, Y H:i" }}</li>
+                            <li><strong>Expires:</strong> {{ item.expiry_time|date:"M d, Y H:i" }}</li>
+                            <li><strong>Location:</strong> {{ item.location }}</li>
+                            <li><strong>Status:</strong>
+                                {% if item.is_available %}
+                                    <span class="badge bg-success">Available</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Unavailable</span>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <h4>No donations yet.</h4>
+                    <p>Start by adding your first food donation!</p>
+                    <a href="{% url 'add_food' %}" class="btn btn-primary">Add Food</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Requests -->
+    <h3 class="mb-3">Food Requests</h3>
+    {% if requests %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Food Item</th>
+                        <th>Receiver</th>
+                        <th>Requested At</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for req in requests %}
+                    <tr>
+                        <td>{{ req.food.name }}</td>
+                        <td>
+                            {{ req.receiver.username }}
+                            {% if req.status == 'accepted' or req.status == 'delivered' %}
+                                <br><small class="text-muted">Phone: {{ req.receiver.phone }}<br>Address: {{ req.receiver.address }}</small>
+                            {% endif %}
+                        </td>
+                        <td>{{ req.requested_at|date:"M d, Y H:i" }}</td>
+                        <td>
+                            {% if req.status == 'pending' %}
+                                <span class="badge bg-warning">Pending</span>
+                            {% elif req.status == 'accepted' %}
+                                <span class="badge bg-success">Accepted</span>
+                                {% if req.delivery %}
+                                    <br><small>Delivery: {{ req.delivery.get_status_display }}</small>
+                                {% endif %}
+                            {% elif req.status == 'rejected' %}
+                                <span class="badge bg-danger">Rejected</span>
+                            {% elif req.status == 'delivered' %}
+                                <span class="badge bg-info">Delivered</span>
+                            {% endif %}
+                            {% if req.delivery and req.delivery.ngo and req.delivery.status == 'accepted' %}
+                                <br><small>NGO: {{ req.delivery.ngo.username }}<br>Phone: {{ req.delivery.ngo.phone }}</small>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if req.status == 'pending' %}
+                                <a href="{% url 'manage_request' req.id 'accept' %}" class="btn btn-sm btn-success me-2">
+                                    <i class="fas fa-check"></i> Accept
+                                </a>
+                                <a href="{% url 'manage_request' req.id 'reject' %}" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-times"></i> Reject
+                                </a>
+                            {% elif req.delivery and req.delivery.status == 'taken' %}
+                                <a href="{% url 'mark_taken' req.delivery.id %}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-hand-paper"></i> Given Food
+                                </a>
+                            {% else %}
+                                <span class="text-muted">No actions</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">No requests yet.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            <h4>No requests yet.</h4>
+            <p>When receivers request your donations, they'll appear here.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

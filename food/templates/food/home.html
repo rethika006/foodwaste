@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero-section bg-success text-white py-5 mb-5">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-3">Welcome to FoodRescue</h1>
+        <p class="lead mb-4">Connect donors, receivers and NGOs to reduce food waste, save resources, and build a stronger community.</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'register' %}" class="btn btn-light btn-lg px-4">
+                <i class="fas fa-user-plus me-2"></i>Get Started
+            </a>
+            <a href="{% url 'food_list' %}" class="btn btn-outline-light btn-lg px-4">
+                <i class="fas fa-search me-2"></i>Browse Food
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card p-4 h-100 text-center">
+            <div class="mb-3">
+                <i class="fas fa-hand-holding-heart fa-3x text-success"></i>
+            </div>
+            <h5 class="card-title">For Donors</h5>
+            <p class="card-text">Quickly create donations, upload images, and set availability timelines to reach nearby families and NGOs.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4 h-100 text-center">
+            <div class="mb-3">
+                <i class="fas fa-users fa-3x text-primary"></i>
+            </div>
+            <h5 class="card-title">For Receivers</h5>
+            <p class="card-text">Browse and request fresh food confidently, track request status, and receive support from verified donors.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4 h-100 text-center">
+            <div class="mb-3">
+                <i class="fas fa-truck fa-3x text-warning"></i>
+            </div>
+            <h5 class="card-title">For NGOs</h5>
+            <p class="card-text">Manage deliveries efficiently, get notifications on accepted requests, and ensure safe distribution.</p>
+        </div>
+    </div>
+</section>
+
+<section class="mb-5">
+    <h2 class="mb-3">How It Works</h2>
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="card p-3">
+                <p class="section-tag">Step 1</p>
+                <h5>Sign Up</h5>
+                <p>Create your account as Donor, Receiver or NGO.</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3">
+                <p class="section-tag">Step 2</p>
+                <h5>List Food</h5>
+                <p>Donors add food details and availability.</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3">
+                <p class="section-tag">Step 3</p>
+                <h5>Request</h5>
+                <p>Receivers request items, then donors approve or reject.</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3">
+                <p class="section-tag">Step 4</p>
+                <h5>Deliver</h5>
+                <p>NGOs track delivery progress to completion.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer text-center">
+    <div class="container">
+        <h5>Join the food rescue community today</h5>
+        <p class="mb-0">Together we convert surplus food into shared hope.</p>
+    </div>
+</footer>
+{% endblock %}

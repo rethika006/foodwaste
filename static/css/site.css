@@ -1,0 +1,137 @@
+body { background: #f8f9fa; color: #2a2f45; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+.navbar { box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.hero-section { background: linear-gradient(135deg, #28a745, #20c997); color: white; border-radius: 0 0 50px 50px; }
+.card { border: none; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,.1); transition: transform 0.3s ease; }
+.card:hover { transform: translateY(-5px); }
+.footer { padding: 40px 0; color: #ffffff; background: #343a40; margin-top: 40px; }
+.hero-line { letter-spacing: 1.05px; font-weight: 700; }
+.section-tag { color: #6c757d; text-transform: uppercase; font-size: 0.8rem; margin-bottom: 8px; }
+.food-card { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.food-card:hover { transform: translateY(-5px); box-shadow: 0 14px 28px rgba(0,0,0,.18); border-color: #dee2e6; }
+.btn { border-radius: 25px; }
+.alert { border-radius: 10px; }
+
+/* Profile Page Styles */
+.profile-header-card {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(32, 201, 151, 0.1));
+    border: 1px solid rgba(40, 167, 69, 0.2);
+}
+
+.avatar-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+}
+
+.nav-tabs {
+    gap: 0.5rem;
+    background: transparent;
+}
+
+.nav-tabs .nav-link {
+    background: white;
+    border: none;
+    color: #6c757d;
+    border-radius: 15px 15px 0 0 !important;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.nav-tabs .nav-link:hover {
+    color: #28a745;
+    background: #f8f9fa;
+}
+
+.nav-tabs .nav-link.active {
+    color: #28a745;
+    background: white;
+    border-bottom: 3px solid #28a745 !important;
+}
+
+.info-item {
+    transition: all 0.3s ease;
+    border-left: 4px solid #28a745;
+}
+
+.info-item:hover {
+    transform: translateX(5px);
+    background: #e8f5e9 !important;
+}
+
+.stat-card {
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.stat-number {
+    margin-bottom: 0.5rem;
+}
+
+.profile-form input[type="text"],
+.profile-form input[type="email"],
+.profile-form input[type="tel"],
+.profile-form textarea {
+    border: 2px solid #e9ecef;
+    border-radius: 15px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.profile-form input[type="text"]:focus,
+.profile-form input[type="email"]:focus,
+.profile-form input[type="tel"]:focus,
+.profile-form textarea:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    outline: none;
+}
+
+.profile-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+}
+
+.badge {
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+    .avatar-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    .nav-tabs .nav-link {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+    }
+}

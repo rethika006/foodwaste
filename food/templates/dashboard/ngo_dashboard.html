@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>NGO Dashboard</h2>
+<p><a class="btn btn-primary" href="{% url 'food_list' %}">View Donations</a></p>
+<h3>Managed Deliveries</h3>
+<table class="table table-striped">
+    <thead><tr><th>Request</th><th>Food</th><th>Donor</th><th>Receiver</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody>
+    {% for d in deliveries %}
+        <tr>
+            <td>{{ d.food_request.id }}</td>
+            <td>{{ d.food_request.food.name }}</td>
+            <td>
+                {{ d.food_request.food.donor.username }}
+                {% if not d.ngo %}
+                    <br><small>Address: {{ d.food_request.food.donor.address }}</small>
+                {% elif d.status == 'accepted' %}
+                    <br><small>Phone: {{ d.food_request.food.donor.phone }}<br>Address: {{ d.food_request.food.donor.address }}</small>
+                {% endif %}
+            </td>
+            <td>
+                {{ d.food_request.receiver.username }}
+                {% if not d.ngo %}
+                    <br><small>Address: {{ d.food_request.receiver.address }}</small>
+                {% elif d.status == 'accepted' %}
+                    <br><small>Phone: {{ d.food_request.receiver.phone }}<br>Address: {{ d.food_request.receiver.address }}</small>
+                {% endif %}
+            </td>
+            <td>
+                {% if d.ngo %}
+                    {{ d.status }}
+                {% else %}
+                    Pending Assignment
+                {% endif %}
+            </td>
+            <td>
+                {% if not d.ngo %}
+                    <a class="btn btn-sm btn-success" href="{% url 'update_delivery' d.id 'accepted' %}">Accept Delivery</a>
+                {% elif d.status == 'accepted' %}
+                    <a class="btn btn-sm btn-primary" href="{% url 'update_delivery' d.id 'taken' %}">Mark Taken</a>
+                {% elif d.status == 'received' %}
+                    <a class="btn btn-sm btn-success" href="{% url 'update_delivery' d.id 'delivered' %}">Mark Delivered</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="6">No deliveries available.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
