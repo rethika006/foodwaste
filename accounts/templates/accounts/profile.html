@@ -130,26 +130,20 @@
                                 <div class="row g-4">
                                     <div class="col-md-4">
                                         <div class="stat-card p-4 bg-success bg-opacity-10 rounded-4 text-center">
-                                            <div class="stat-number fw-bold text-success" style="font-size: 2rem;">
-                                                {{ user.donated_food.count }}
-                                            </div>
+                                            <div class="stat-number fw-bold text-success" style="font-size: 2rem;">{{ stat1 }}</div>
                                             <p class="text-muted mb-0">Foods Donated</p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="stat-card p-4 bg-info bg-opacity-10 rounded-4 text-center">
-                                            <div class="stat-number fw-bold text-info" style="font-size: 2rem;">
-                                                {{ user.donated_food.filter|length }}
-                                            </div>
+                                            <div class="stat-number fw-bold text-info" style="font-size: 2rem;">{{ stat2 }}</div>
                                             <p class="text-muted mb-0">Available Foods</p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="stat-card p-4 bg-warning bg-opacity-10 rounded-4 text-center">
-                                            <div class="stat-number fw-bold text-warning" style="font-size: 2rem;">
-                                                {{ user.donated_food.filter.count|default:0 }}
-                                            </div>
-                                            <p class="text-muted mb-0">Requests Received</p>
+                                            <div class="stat-number fw-bold text-warning" style="font-size: 2rem;">{{ stat3 }}</div>
+                                            <p class="text-muted mb-0">Pending Requests</p>
                                         </div>
                                     </div>
                                 </div>
@@ -157,25 +151,19 @@
                                 <div class="row g-4">
                                     <div class="col-md-4">
                                         <div class="stat-card p-4 bg-success bg-opacity-10 rounded-4 text-center">
-                                            <div class="stat-number fw-bold text-success" style="font-size: 2rem;">
-                                                {{ user.food_requests.count }}
-                                            </div>
+                                            <div class="stat-number fw-bold text-success" style="font-size: 2rem;">{{ stat1 }}</div>
                                             <p class="text-muted mb-0">Food Requested</p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="stat-card p-4 bg-info bg-opacity-10 rounded-4 text-center">
-                                            <div class="stat-number fw-bold text-info" style="font-size: 2rem;">
-                                                {{ user.food_requests.filter|length }}
-                                            </div>
+                                            <div class="stat-number fw-bold text-info" style="font-size: 2rem;">{{ stat2 }}</div>
                                             <p class="text-muted mb-0">Accepted Requests</p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="stat-card p-4 bg-warning bg-opacity-10 rounded-4 text-center">
-                                            <div class="stat-number fw-bold text-warning" style="font-size: 2rem;">
-                                                0
-                                            </div>
+                                            <div class="stat-number fw-bold text-warning" style="font-size: 2rem;">{{ stat3 }}</div>
                                             <p class="text-muted mb-0">Pending Requests</p>
                                         </div>
                                     </div>
@@ -184,25 +172,19 @@
                                 <div class="row g-4">
                                     <div class="col-md-4">
                                         <div class="stat-card p-4 bg-success bg-opacity-10 rounded-4 text-center">
-                                            <div class="stat-number fw-bold text-success" style="font-size: 2rem;">
-                                                {{ user.managed_deliveries.count }}
-                                            </div>
+                                            <div class="stat-number fw-bold text-success" style="font-size: 2rem;">{{ stat1 }}</div>
                                             <p class="text-muted mb-0">Deliveries Managed</p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="stat-card p-4 bg-info bg-opacity-10 rounded-4 text-center">
-                                            <div class="stat-number fw-bold text-info" style="font-size: 2rem;">
-                                                {{ user.managed_deliveries.filter|length }}
-                                            </div>
+                                            <div class="stat-number fw-bold text-info" style="font-size: 2rem;">{{ stat2 }}</div>
                                             <p class="text-muted mb-0">Completed</p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="stat-card p-4 bg-warning bg-opacity-10 rounded-4 text-center">
-                                            <div class="stat-number fw-bold text-warning" style="font-size: 2rem;">
-                                                0
-                                            </div>
+                                            <div class="stat-number fw-bold text-warning" style="font-size: 2rem;">{{ stat3 }}</div>
                                             <p class="text-muted mb-0">In Progress</p>
                                         </div>
                                     </div>

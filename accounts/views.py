@@ -18,6 +18,8 @@ from .forms import (
     PasswordResetForm,
 )
 from .models import CustomUser
+from food.models import Food
+from requests_app.models import FoodRequest, Delivery
 
 
 def register(request):
@@ -299,7 +301,23 @@ class ProfileUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user
+        user = self.request.user
+        context['user'] = user
+        if user.role == 'donor':
+            food_qs = Food.objects.filter(donor=user)
+            context['stat1'] = food_qs.count()
+            context['stat2'] = food_qs.filter(is_available=True).count()
+            context['stat3'] = FoodRequest.objects.filter(food__donor=user, status='pending').count()
+        elif user.role == 'receiver':
+            req_qs = FoodRequest.objects.filter(receiver=user)
+            context['stat1'] = req_qs.count()
+            context['stat2'] = req_qs.filter(status='accepted').count()
+            context['stat3'] = req_qs.filter(status='pending').count()
+        elif user.role == 'ngo':
+            del_qs = Delivery.objects.filter(ngo=user)
+            context['stat1'] = del_qs.count()
+            context['stat2'] = del_qs.filter(status='delivered').count()
+            context['stat3'] = del_qs.exclude(status='delivered').count()
         return context
 
 
